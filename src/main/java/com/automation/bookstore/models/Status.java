@@ -1,19 +1,19 @@
 package com.automation.bookstore.models;
 
 public class Status {
-    private int status;
+    private int statusCode;
     private String message;
 
     public Status(){}
     public Status(int status,  String message) {
-        this.status = status;
+        this.statusCode = status;
         this.message = message;
     }
-    public int getStatus() {
-        return status;
+    public int getStatusCode() {
+        return statusCode;
     }
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
     public String getMessage() {return message;}
     public void setMessage(String message) {

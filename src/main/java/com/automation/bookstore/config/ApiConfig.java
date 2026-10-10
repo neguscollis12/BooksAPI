@@ -22,5 +22,7 @@ public class ApiConfig {
     public static final int HTTP_CONFLICT = 409;
 
 
+    public static final String SUCCESSFUL_MESSAGE = "OK";
+    public static final String ERROR_MESSAGE = "The resource could not be found. Check your endpoint and request method.";
 
 }
