@@ -62,4 +62,14 @@ public class ListOfBooksTests {
         }
     }
 
+    @Test(testName = "BK-04 - Verifying 200 Status and At Most 5 Books")
+    public void testAtMost5Books() {
+        setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=5");
+        Assert.assertTrue(books.size() == 5, "Books size should be 5");
+        for(Book book : books){
+            book.setStatusCode(response.getStatusCode());
+            Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200 OK");
+        }
+    }
+
 }
