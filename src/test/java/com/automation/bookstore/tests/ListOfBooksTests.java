@@ -73,8 +73,6 @@ public class ListOfBooksTests {
         }
     }
 
-}
-
     @Test(testName = "BK-05 Verifying 200 status and 1 book display")
     public void test1Book() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=1 ");
@@ -84,5 +82,8 @@ public class ListOfBooksTests {
             Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200");
         }
     }
+
 }
+
+
 
