@@ -1,4 +1,4 @@
-package com.automation.bookstore.utils;
+package com.automation.bookstore.utils.Utils;
 
 import com.automation.bookstore.config.ApiConfig;
 import io.restassured.response.Response;
