@@ -2,7 +2,7 @@ package com.automation.bookstore.tests;
 
 import com.automation.bookstore.config.ApiConfig;
 import com.automation.bookstore.models.Book;
-import com.automation.bookstore.utils.ApiRequestBuilder;
+import com.automation.bookstore.utils.Utils.ApiRequestBuilder;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -14,16 +14,16 @@ public class ListOfBooksTests {
     private Response response;
     private List<Book> books;
 
-    public void setUp(String endpoint){
+    public void setUp(String endpoint) {
         response = ApiRequestBuilder.getResponse(endpoint);
         books = Arrays.asList(response.as(Book[].class));
     }
 
     @Test(testName = "BK-01 - Verifying GET /books With No Parameters" +
-                "200; Array of Books, Each With Id, Name, Type, Available", priority = 1)
-    public void testEachBookFields(){
+            "200; Array of Books, Each With Id, Name, Type, Available", priority = 1)
+    public void testEachBookFields() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT);
-        for(Book book :  books){
+        for (Book book : books) {
             book.setStatusCode(response.getStatusCode());
             Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200 OK");
             Assert.assertTrue(book.getId() > 0 && book.getId() < 7, "Book ID should be 1 - 6");
@@ -32,19 +32,19 @@ public class ListOfBooksTests {
             Assert.assertNotNull(book.getType(), "Book type should not be null");
             Assert.assertTrue(book.getType().equalsIgnoreCase("fiction") ||
                     book.getType().equalsIgnoreCase("non-fiction"), "Book type should be fiction or non-fiction");
-            if(book.getId() == 2){
+            if (book.getId() == 2) {
                 Assert.assertFalse(book.isAvailable(), "Book should not be available");
-            }else {
+            } else {
                 Assert.assertTrue(book.isAvailable(), "Book should be available");
             }
         }
     }
 
     @Test(testName = "BK-02 - Verifying '?type=fiction'" +
-                "Has 200 Status Code and Every Book Type is Fiction", priority = 2)
-    public void testEachBookTypeIsFiction(){
+            "Has 200 Status Code and Every Book Type is Fiction", priority = 2)
+    public void testEachBookTypeIsFiction() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?type=fiction");
-        for(Book book :  books){
+        for (Book book : books) {
             book.setStatusCode(response.getStatusCode());
             Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200 OK");
             Assert.assertEquals(book.getType(), "fiction", "Book type should be fiction");
@@ -53,13 +53,23 @@ public class ListOfBooksTests {
 
     @Test(testName = "BK-03 - Verifying '?type=non-fiction'" +
             "Has 200 Status Code and Every Book Type is Fiction", priority = 2)
-    public void testEachBookTypeIsNonFiction(){
+    public void testEachBookTypeIsNonFiction() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?type=non-fiction");
-        for(Book book :  books){
+        for (Book book : books) {
             book.setStatusCode(response.getStatusCode());
             Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200 OK");
             Assert.assertEquals(book.getType(), "non-fiction", "Book type should be non-fiction");
         }
     }
 
+    @Test(testName = "BK-04 - Verifying 200 status and at most 5 books")
+    public void testAtMost5Books() {
+        setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=5 ");
+        Assert.assertTrue(books.size() == 5, "Books size should be 5");
+
+        for(Book book : books) {
+            book.setStatusCode(response.getStatusCode());
+            Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200");
+        }
+    }
 }

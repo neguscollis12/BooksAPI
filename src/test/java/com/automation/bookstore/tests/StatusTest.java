@@ -2,7 +2,7 @@ package com.automation.bookstore.tests;
 
 import com.automation.bookstore.config.ApiConfig;
 import com.automation.bookstore.models.Status;
-import com.automation.bookstore.utils.ApiRequestBuilder;
+import com.automation.bookstore.utils.Utils.ApiRequestBuilder;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -48,6 +48,5 @@ public class StatusTest {
         Assert.assertNotNull(status.getMessage(), "The message should not be null");
         Assert.assertEquals(status.getMessage(), ApiConfig.ERROR_MESSAGE, "The message should be 404 Not Found");
     }
-
 
 }
