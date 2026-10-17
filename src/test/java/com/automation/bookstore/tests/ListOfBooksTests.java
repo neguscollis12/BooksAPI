@@ -63,7 +63,7 @@ public class ListOfBooksTests {
     }
 
 
-    @Test(testName = "BK-04 - Verifying 200 Status and At Most 5 Books")
+    @Test(testName = "BK-04 - Verifying 200 Status and At Most 5 Books", priority = 2)
     public void testAtMost5Books() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=5");
         Assert.assertTrue(books.size() == 5, "Books size should be 5");
@@ -73,10 +73,20 @@ public class ListOfBooksTests {
         }
     }
 
-    @Test(testName = "BK-05 Verifying 200 status and 1 book display")
+    @Test(testName = "BK-05 Verifying 200 status and 1 book display", priority = 2)
     public void test1Book() {
         setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=1 ");
         Assert.assertTrue(books.size() == 1, "Books size should be only 1");
+        for(Book book : books) {
+            book.setStatusCode(response.getStatusCode());
+            Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200");
+        }
+    }
+
+    @Test(testName = "BK-06 Verifying Upper Limit of 20 Books 200 status and Up To 20 books  should be display", priority = 2)
+    public void testUpperLimitOf20Books() {
+        setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?limit=20");
+        Assert.assertTrue(books.size() <= 20, "Books size should be up to 20");
         for(Book book : books) {
             book.setStatusCode(response.getStatusCode());
             Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200");
