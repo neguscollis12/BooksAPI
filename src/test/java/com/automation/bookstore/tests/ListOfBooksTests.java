@@ -83,6 +83,20 @@ public class ListOfBooksTests {
         }
     }
 
+    @Test(testName = "BK-07 Verifying '?type=fiction&limit=2 (combined)'"+
+            "Has 200 Status Code and Every Book Type is Fiction and At Most 2 Books", priority = 2)
+    public void testEachBookTypeIsFictionAndAtMost2Books() {
+        setUp(ApiConfig.LIST_OF_BOOKS_ENDPOINT + "?type=fiction&limit=2");
+        Assert.assertTrue(books.size() == 2, "Books size should only be 2");
+
+        for(Book book : books) {
+            book.setStatusCode(response.getStatusCode());
+            Assert.assertEquals(book.getStatusCode(), ApiConfig.HTTP_OK, "Status code should be 200");
+            Assert.assertEquals(book.getType(), "fiction", "Book type should be fiction");
+
+        }
+    }
+
 }
 
 
